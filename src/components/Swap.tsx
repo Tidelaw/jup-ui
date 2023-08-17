@@ -31,20 +31,20 @@ export default function Swap() {
 
   return (
 
-    <div className='flex w-1/2 xl:w-1/3 h-3/4 rounded-3xl bg-base-100 items-center justify-center px-8 flex-col gap-8'>
+    <div className='flex w-1/2 md:w-1/3 xl:w-1/4 rounded-3xl bg-base-100 items-center justify-center p-8 flex-col gap-8'>
 
       <input type="range" min={0} max="100" value={solPercent} onChange={(event: any) => { setSolPercent(event.target.value) }} step={25} data-bind="sliderValue: {valueUpdate:['afterkeydown','propertychange','input']}" className="range range-accent" />
 
-      <div className="form-control w-full max-w-xs">
+      <div className="form-control w-full">
         <label className="label">
           <span className="label-text text-zinc-200 font-bold tracking-wide">You're Paying SOL</span>
         </label>
         <input type="number" placeholder="0.00" value={solPercent} onChange={(event: any) => { setSolPercent(event.target.value) }}
-          className="input bg-base-200 font-bold tracking-widest pr-0 text-right text-xl text-zinc-100 w-full max-w-xs" />
+          className="input bg-base-200 font-bold tracking-widest pr-0 text-right text-xl text-zinc-100 w-full" />
       </div>
 
 
-      <div className="form-control w-full max-w-xs cursor-disabled">
+      <div className="form-control w-full cursor-disabled">
         <label className="label">
           <span className="label-text text-zinc-200 font-bold tracking-wide">You're Receiving USDC</span>
         </label>
@@ -58,9 +58,9 @@ export default function Swap() {
       <button onClick={
         // handleSubmit
         () => {swap(quoted)}
-      } className='flex bg-transparent border-2 rounded-md border-accent opacity-90 hover:opacity-100 duration-200 items-center justify-center h-10 p-2 px-4 font-bold text-white duration-200 cursor-pointer' type="submit">
+      } className='flex rounded-xl bg-accent text-base-200 opacity-90 hover:opacity-100 duration-200 items-center justify-center h-10 p-2 px-4 font-bold duration-200 cursor-pointer' type="submit">
 
-        <span className='flex justify-center font-semibold text-accent tracking-widest'>{(
+        <span className='flex justify-center font-semibold text-base-200 tracking-widest'>{(
           load ? (
             <svg className="flex w-20 animate-spin h-5 w-5 text-base-100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -68,7 +68,7 @@ export default function Swap() {
             </svg>
           ) :
             (
-              <span className='w-20'>swap</span>
+              <span className='w-20 font-extrabold tracking-widest text-lg'>SWAP</span>
             ))}</span>
 
       </button>
