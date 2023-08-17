@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 const axios = require('axios');
-import {  VersionedTransaction } from '@solana/web3.js';
+import { VersionedTransaction } from '@solana/web3.js';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 export default function Swap() {
-
+  const wallet:any = useWallet();
   const [solPercent, setSolPercent] = useState(0)
   const [load, setLoad] = useState(false)
   const [quoted, setQuoted]: any = useState(0)
@@ -15,7 +16,8 @@ export default function Swap() {
     const swapTransactionBuf = Buffer.from(response.data.swapTransaction, 'base64');
     var transaction = VersionedTransaction.deserialize(swapTransactionBuf);
 
-    console.log(transaction, 'tx')
+    let signedTX = await wallet.signTransaction(transaction)
+    console.log(signedTX, 'stx')
   }
 
   useEffect(() => {
