@@ -12,7 +12,7 @@ export default async function handler(req: any, res: any) {
           'Accept': 'application/json'
         }
       };
-      console.log('asd')
+
       let {data} = await axios.request(config)
 
       res.status(200).json(data)
