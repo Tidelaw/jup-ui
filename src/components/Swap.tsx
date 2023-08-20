@@ -20,23 +20,33 @@ export default function Swap() {
     var transaction = VersionedTransaction.deserialize(swapTransactionBuf);
 
     let signedTX = await wallet.signTransaction(transaction)
-    console.log(signedTX, 'stx')
 
-    const rawTransaction = transaction.serialize()
+    let rawTransaction = signedTX.serialize()
+
     const txid = await connection.sendRawTransaction(rawTransaction, {
       skipPreflight: true,
       maxRetries: 2
     });
 
-    console.log(txid)
-    const latestBlockHash = await connection.getLatestBlockhash();
-    console.log(latestBlockHash)
-    await connection.confirmTransaction({
-      blockhash: latestBlockHash.blockhash,
-      lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
-      signature: txid,
-    });
-    console.log(txid)
+    console.log(txid, 'txid')
+
+    // console.log(signedTX, 'stx')
+
+    // const rawTransaction = transaction.serialize()
+    // const txid = await connection.sendRawTransaction(rawTransaction, {
+    //   skipPreflight: true,
+    //   maxRetries: 2
+    // });
+
+    // console.log(txid)
+    // const latestBlockHash = await connection.getLatestBlockhash();
+    // console.log(latestBlockHash)
+    // await connection.confirmTransaction({
+    //   blockhash: latestBlockHash.blockhash,
+    //   lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+    //   signature: txid,
+    // });
+    // console.log(txid)
   }
 
   useEffect(() => {
