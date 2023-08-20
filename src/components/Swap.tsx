@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
 const axios = require('axios');
-import { VersionedTransaction } from '@solana/web3.js';
+import { VersionedTransaction, Connection } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
+import web3 from '@solana/web3.js'
+
+const connection = new Connection("https://rpc.helius.xyz/?api-key=c06d2673-cd88-43d0-8c04-a2a35d1f03a1")
 
 export default function Swap() {
-  const wallet:any = useWallet();
+  const wallet: any = useWallet();
   const [solPercent, setSolPercent] = useState(0)
   const [load, setLoad] = useState(false)
   const [quoted, setQuoted]: any = useState(0)
 
-  async function swap (quote:any) {
-    let response = await axios.post(`/api/swap`, { quote : quote });
+  async function swap(quote: any) {
+    let response = await axios.post(`/api/swap`, { quote: quote });
     console.log(response, 'as')
 
     const swapTransactionBuf = Buffer.from(response.data.swapTransaction, 'base64');
@@ -18,6 +21,22 @@ export default function Swap() {
 
     let signedTX = await wallet.signTransaction(transaction)
     console.log(signedTX, 'stx')
+
+    const rawTransaction = transaction.serialize()
+    const txid = await connection.sendRawTransaction(rawTransaction, {
+      skipPreflight: true,
+      maxRetries: 2
+    });
+
+    console.log(txid)
+    const latestBlockHash = await connection.getLatestBlockhash();
+    console.log(latestBlockHash)
+    await connection.confirmTransaction({
+      blockhash: latestBlockHash.blockhash,
+      lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+      signature: txid,
+    });
+    console.log(txid)
   }
 
   useEffect(() => {
@@ -52,14 +71,14 @@ export default function Swap() {
         </label>
         <div className='flex px-[1rem] h-[3rem] items-center flex-end justify-end rounded-lg bg-base-200 font-bold tracking-widest text-right text-xl text-zinc-100'>
           <div className='flex'>
-          {quoted?(quoted.data.outAmount / 1_000_000).toFixed(2):0}
+            {quoted ? (quoted.data.outAmount / 1_000_000).toFixed(2) : 0}
           </div>
-          </div>
+        </div>
       </div>
 
       <button onClick={
         // handleSubmit
-        () => {swap(quoted)}
+        () => { swap(quoted) }
       } className='flex rounded-xl bg-accent text-base-200 opacity-90 hover:opacity-100 duration-200 items-center justify-center h-10 p-2 px-4 font-bold duration-200 cursor-pointer' type="submit">
 
         <span className='flex justify-center font-semibold text-base-200 tracking-widest'>{(

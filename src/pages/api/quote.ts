@@ -14,12 +14,11 @@ export default async function handler(req: any, res: any) {
       };
 
       let {data} = await axios.request(config)
-      console.log(req.body.amount*1_000_000_000)
       res.status(200).json(data)
 
     };
   }
 
-  catch (err) { console.log(err) }
+  catch (err) {}
 
 }
