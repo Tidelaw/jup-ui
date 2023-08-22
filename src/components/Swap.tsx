@@ -4,7 +4,7 @@ import { VersionedTransaction, Connection } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
 import web3 from '@solana/web3.js'
 
-const connection = new Connection("https://rpc.helius.xyz/?api-key=c06d2673-cd88-43d0-8c04-a2a35d1f03a1")
+const connection = new Connection("https://rpc.helius.xyz/?api-key=c5de1ff4-94a5-4b24-ab79-4526767a9a7d")
 
 export default function Swap() {
   const wallet: any = useWallet();
